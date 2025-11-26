@@ -1,0 +1,71 @@
+def cm_to_m(value):
+    return value / 100
+
+def m_to_cm(value):
+    return value * 100
+
+def m_to_km(value):
+    return value / 1000
+
+def km_to_m(value):
+    return value * 1000
+
+def inch_to_cm(value):
+    return value * 2.54
+
+def cm_to_inch(value):
+    return value / 2.54
+
+def ft_to_m(value):
+    return value * 0.3048
+
+def m_to_ft(value):
+    return value / 0.3048
+
+
+def unit_converter():
+    while True:
+        print("\n--- Unit Converter ---")
+        print("1. cm → m")
+        print("2. m → cm")
+        print("3. m → km")
+        print("4. km → m")
+        print("5. inch → cm")
+        print("6. cm → inch")
+        print("7. ft → m")
+        print("8. m → ft")
+        print("9. Exit")
+
+        choice = input("Enter your choice (1-9): ")
+
+        if choice == '9':
+            print("Exiting Unit Converter. Goodbye!")
+            break
+
+        try:
+            value = float(input("Enter value to be converted: "))
+        except ValueError:
+            print("Invalid input! Please enter a numeric value.")
+            continue
+
+        if choice == '1':
+            print(f"{value} cm = {cm_to_m(value)} m")
+        elif choice == '2':
+            print(f"{value} m = {m_to_cm(value)} cm")
+        elif choice == '3':
+            print(f"{value} m = {m_to_km(value)} km")
+        elif choice == '4':
+            print(f"{value} km = {km_to_m(value)} m")
+        elif choice == '5':
+            print(f"{value} inch = {inch_to_cm(value)} cm")
+        elif choice == '6':
+            print(f"{value} cm = {cm_to_inch(value)} inch")
+        elif choice == '7':
+            print(f"{value} ft = {ft_to_m(value)} m")
+        elif choice == '8':
+            print(f"{value} m = {m_to_ft(value)} ft")
+        else:
+            print("Invalid choice! Please select a valid option.")
+
+if __name__ == "__main__":
+    unit_converter()

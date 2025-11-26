@@ -1,0 +1,17 @@
+age = int(input("Enter Your Age: "))
+ticket = True 
+
+if age > 18:
+    print("You can watch the movie")
+    if ticket:
+        print("You can go")
+    else:
+        print("Please buy a ticket first")
+elif age >= 15:
+    print("You can watch the movie, but show your ID")
+    if ticket:
+        print("You can go")
+    else:
+        print("Please buy a ticket first")
+else:
+    print("Not allowed")

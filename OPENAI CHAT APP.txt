@@ -1,0 +1,11 @@
+import google.generativeai as genai
+key = "Openai key"
+print(key)
+model = genai.GenerativeModel("Open ai ")
+while True:
+    user = input("Enter what you want to search ortype exit to close")
+    if user.lower() =="exit":
+        print("bye bye")
+        break
+    response = model.generate_content(user)
+    print("BOT :",response.text)

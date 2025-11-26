@@ -1,0 +1,22 @@
+import os
+import speech_recognition as sr
+import pyttsx3
+import matplotlib.pyplot as plt
+import webbrowser
+import subprocess
+
+speaker = pyttsx3.init()
+mic = sr.Recognizer()
+
+speaker.say("welcome to jarvis")
+speaker.runAndWait()
+
+with sr.Microphone() as source:
+    print("start speaking...")
+    voice = mic.listen(source)
+    
+    text = mic.recognize_google(voice)
+    print(f"You said: {text}")
+    if "open notepad" in text.lower():
+        print("Opening notepad...")
+        os.system("notepad")

@@ -1,0 +1,340 @@
+
+
+
+
+from flask import Flask
+
+
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return """
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+  <!--
+    Resume Index File for: Khuse
+    Notes:
+    - Single-file, print-ready resume (A4), responsive, and ATS-friendly
+    - Semantic HTML for better parsing
+    - Minimal, clean typography with accessible contrast
+    - Edit placeholders in CONTACT + LINKS section
+  -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Khubi — Resume</title>
+
+  <style>
+    :root {
+      --bg: #ffffff;
+      --fg: #0f172a;      /* slate-900 */
+      --muted: #475569;   /* slate-600 */
+      --accent: #2563eb;  /* blue-600 */
+      --line: #e2e8f0;    /* slate-200 */
+      --chip-bg: #eef2ff; /* indigo-50 */
+      --chip-fg: #3730a3; /* indigo-800 */
+    }
+
+    * { box-sizing: border-box; }
+    html, body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+      line-height: 1.55;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Layout */
+    .page {
+      max-width: 1024px;
+      margin: 24px auto;
+      padding: 24px;
+    }
+
+    header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px;
+      align-items: center;
+      border-bottom: 2px solid var(--line);
+      padding-bottom: 16px;
+      margin-bottom: 16px;
+    }
+
+    .title h1 {
+      font-size: 2rem;
+      margin: 0;
+      letter-spacing: 0.2px;
+    }
+
+    .title p {
+      margin: 4px 0 0 0;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .contact {
+      text-align: right;
+      font-size: 0.95rem;
+    }
+
+    .contact a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    /* Sections */
+    section {
+      margin: 18px 0;
+      padding-top: 6px;
+    }
+
+    section h2 {
+      font-size: 1.1rem;
+      margin: 0 0 10px 0;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--muted);
+    }
+
+    .item {
+      margin-bottom: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .item:last-child { border-bottom: none; padding-bottom: 0; }
+
+    .item-header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      align-items: baseline;
+    }
+
+    .role {
+      font-weight: 600;
+    }
+
+    .meta {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .desc {
+      margin: 6px 0 0 0;
+    }
+
+    /* Lists and chips */
+    ul {
+      margin: 6px 0 0 18px;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .chip {
+      background: var(--chip-bg);
+      color: var(--chip-fg);
+      border: 1px solid #c7d2fe;
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      white-space: nowrap;
+    }
+
+    /* Utilities */
+    .muted { color: var(--muted); }
+    .link { color: var(--accent); text-decoration: none; }
+    .nowrap { white-space: nowrap; }
+
+    /* Print styling */
+    @page { size: A4; margin: 14mm; }
+    @media print {
+      .page { margin: 0; padding: 0; }
+      .controls { display: none !important; }
+      .chip { border-color: #b6c1ff; }
+    }
+
+    /* Top controls (optional) */
+    .controls {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .btn {
+      border: 1px solid var(--line);
+      background: #f8fafc;
+      color: var(--fg);
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      cursor: pointer;
+    }
+    .btn:hover { background: #eef2f7; }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <!-- Quick controls: Print or Download as PDF (via browser print) -->
+    <div class="controls">
+      <button class="btn" onclick="window.print()">Print / Save as PDF</button>
+      <button class="btn" onclick="toggleCompact()">Toggle compact</button>
+    </div>
+
+    <!-- Header -->
+    <header>
+      <div class="title">
+        <h1>Khubilal Javat</h1>
+        <p>AI/ML-oriented full‑stack builder • Hardware/software integration • Hackathon innovator</p>
+      </div>
+      <div class="contact">
+        <!-- Replace with your details -->
+        <div>Jaipur, Rajasthan, India</div>
+        <div><span class="nowrap">Email:</span> <a href="mailto:your.email@example.com">your.email@example.com</a></div>
+        <div><span class="nowrap">Phone:</span> +91-XXXXXXXXXX</div>
+        <div>
+          <a href="https://github.com/Khubilal123" class="link">GitHub</a> ·
+          <a href="https://www.linkedin.com/in/Khubilal-Javat" class="link">LinkedIn</a> ·
+          <a href="https://your-portfolio.example.com" class="link">Portfolio</a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Summary -->
+    <section id="summary">
+      <h2>Summary</h2>
+      <div class="item">
+        <p class="desc">
+          Resourceful, modular thinker combining AI/ML, full‑stack engineering, and hardware integration.
+          Experienced in rapid prototyping, clear documentation, and deploying scalable, assignment‑ready solutions.
+          Driven by originality, sustainability, and real‑world impact across hackathons and academic projects.
+        </p>
+        <div class="chips">
+          <span class="chip">Python</span>
+          <span class="chip">C++</span>
+          <span class="chip">Java</span>
+          <span class="chip">JavaScript</span>
+          <span class="chip">SQL</span>
+          <span class="chip">Flask</span>
+          <span class="chip">MongoDB</span>
+          <span class="chip">ESP32‑CAM</span>
+          <span class="chip">Cloud APIs</span>
+          <span class="chip">AI/ML</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills -->
+    <section id="skills">
+      <h2>Skills</h2>
+      <div class="item">
+        <div class="item-header">
+          <div class="role">Languages & frameworks</div>
+          <div class="meta">Python, C++, Java, JavaScript, SQL, Flask, modern JS frameworks</div>
+        </div>
+        <ul>
+          <li>Strong data structures, algorithms, and modular design for production‑ready code</li>
+          <li>Hands‑on with REST APIs, cloud integrations, and deployment workflows</li>
+          <li>Clear, assignment‑grade documentation and stepwise explanations</li>
+        </ul>
+      </div>
+      <div class="item">
+        <div class="item-header">
+          <div class="role">Systems & tooling</div>
+          <div class="meta">Git, CI/CD basics, troubleshooting, cost/time estimation</div>
+        </div>
+        <ul>
+          <li>End‑to‑end planning, iterative prototyping, and rapid pivots</li>
+          <li>Hardware/software integration (ESP32‑CAM, IoT), sustainable design</li>
+          <li>Database CRUD patterns (MongoDB), authentication, and scalable backends</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Experience (add internships, roles, or major contributions) -->
+    <section id="experience">
+      <h2>Experience</h2>
+
+      <!-- Example entry (replace with real roles) -->
+      <div class="item">
+        <div class="item-header">
+          <div class="role">Student Developer • Full‑stack & AI Projects</div>
+          <div class="meta">Jaipur, India · 2024–Present</div>
+        </div>
+        <ul>
+          <li>Delivered assignment‑ready ML notes and neural network docs with clarity and academic standards</li>
+          <li>Built modular voice assistant (Jarvis) in Python: extensible command handlers, system utilities, and API integrations</li>
+          <li>Practiced MongoDB CRUD and query syntax; integrated backend patterns into student projects</li>
+        </ul>
+        <p class="muted">Environment: Python, Flask, JS, MongoDB, Git, Cloud APIs</p>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects">
+      <h2>Selected projects</h2>
+
+      <div class="item">
+        <div class="item-header">
+          <div class="role">Solar‑powered ESP32‑CAM AI crop disease detector</div>
+          <div class="meta">Prototype • 2025</div>
+        </div>
+        <p class="desc">
+          Designed a cost‑effective, solar‑powered IoT system using ESP32‑CAM for field‑level crop disease detection.
+          Implemented edge capture, cloud inference, and dashboard reporting with full BoM, cost/time breakdown, and scalability plan.
+        </p>
+        <ul>
+          <li>Modular pipeline: capture → preprocess → inference → alert → dashboard</li>
+          <li>Optimized power budget and connectivity for rural deployment</li>
+          <li>Hackathon‑ready documentation, diagrams, and deployment notes</li>
+        </ul>
+        <p class="muted">Tech: ESP32‑CAM, Python, Flask API, Cloud inference, MQTT/HTTP, Solar design</p>
+      </div>
+
+      <div class="item">
+        <div class="item-header">
+          <div class="role">Lost‑and‑found web app</div>
+          <div class="meta">Frontend → Full‑stack • 2024–2025</div>
+        </div>
+        <p class="desc">
+          Evolved from a dynamic HTML/CSS/JS frontend with localStorage to a full‑stack app with backend and database integration.
+          Implemented CRUD flows, authentication, and clean UI for campus use.
+        </p>
+        <ul>
+          <li>Reusable components and state management for reports and claims</li>
+          <li>Backend routes for items, users, and moderation</li>
+          <li>Scalable data model and deployment checklist</li>
+        </ul>
+        <p class="muted">Tech: JS, CSS, Flask/Express, MongoDB, Git</p>
+      </div>
+
+      <div class="item">
+        <div class="item-header">
+          <div class="role">Chess clips automation engine</div>
+          <div class="meta">Creative coding • 2025</div>
+        </div>
+        <p class="desc">
+          Automated creation of viral chess clips with Stockfish eval, AI‑powered commentary, and creative modes (Brilliancy Reel, Meme Mode).
+          Integrated agent‑based workflows and upload automation.
+        </p>
+
+  
+    """
+@app.route("/about")
+def about():
+    return """
+    <h1> I am Home page</h1>
+    <h2>I am running in flask</h2>
+
+    """
+if __name__=='__main__':
+    app.run()
