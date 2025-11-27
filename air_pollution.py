@@ -5,22 +5,17 @@ import pandas as pd
 import streamlit as st
 import plotly.express as px
 
-# Gemini
 import google.generativeai as genai
 
-# ---------------------------
-# Config
-# ---------------------------
 st.set_page_config(page_title="AQI Chatbot & Dashboard", layout="wide")
 st.title("Air Pollution Index Chatbot & Dashboard")
 
-# Sidebar
+
 st.sidebar.header("Settings")
 city = st.sidebar.text_input("City (OpenAQ compatible)", value="Jaipur")
 country = st.sidebar.text_input("Country code (optional)", value="")
 hours = st.sidebar.slider("Hours lookback", min_value=6, max_value=72, value=24, step=6)
 
-# Gemini setup
 GEMINI_KEY = os.getenv("Your api key here")
 if GEMINI_KEY:
     genai.configure(api_key=GEMINI_KEY)
@@ -34,9 +29,6 @@ try:
 except Exception as e:
     st.error(f"Gemini init error: {e}")
 
-# ---------------------------
-# Helper functions
-# ---------------------------
 def fetch_openaq(city, country, hours):
     """
     Fetch recent measurements from OpenAQ v2 API.
@@ -55,7 +47,7 @@ def fetch_openaq(city, country, hours):
     }
     if country.strip():
         params["country"] = country.strip()
-    # Convert timestamps to ISO
+
     params["date_from"] = params["date_from"].isoformat() + "Z"
     params["date_to"] = params["date_to"].isoformat() + "Z"
 
@@ -118,9 +110,7 @@ def compose_context_summary(df):
             parts.append(f"{k.upper()}={latest_vals[k]:.1f}")
     return "; ".join(parts)
 
-# ---------------------------
-# Layout: Dashboard
-# ---------------------------
+
 with st.container():
     st.subheader("City air quality overview")
     col1, col2 = st.columns([3, 2])
@@ -145,7 +135,7 @@ with st.container():
                         markers=True,
                     )
                     st.plotly_chart(fig, use_container_width=True)
-                # Pollutant distribution
+        
                 agg = df.groupby("parameter")["value"].mean().reset_index()
                 fig2 = px.bar(
                     agg, x="parameter", y="value", title="Average pollutant concentrations"
@@ -160,16 +150,12 @@ with st.container():
         st.metric(label="Summary", value=ctx_summary.split(';')[0] if ctx_summary else "Unknown")
         st.caption("Indicative band based on latest PM2.5; not an official AQI.")
 
-# ---------------------------
-# Layout: Chatbot
-# ---------------------------
 st.subheader("Ask the AQI chatbot")
 st.caption("Get explanations about AQI, health guidance, and pollutant differences.")
 
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
 
-# Chat input
 user_msg = st.text_input("Your question (e.g., 'Is it safe to run outside today?')", value="")
 send = st.button("Send")
 
@@ -199,13 +185,12 @@ if send and user_msg.strip():
         answer = f"Model error: {e}"
     st.session_state.chat_history.append(("assistant", answer))
 
-# Show chat
 for role, msg in st.session_state.chat_history:
     if role == "user":
         st.markdown(f"**You:** {msg}")
     else:
         st.markdown(f"**Assistant:** {msg}")
 
-# Footer
 st.markdown("---")
 st.caption("Data source: OpenAQ. AQI band is indicative and simplified. Gemini powers the chatbot.")
+
