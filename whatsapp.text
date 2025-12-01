@@ -1,0 +1,23 @@
+import pywhatkit
+
+PHONE_NUMBER = "+910000000000" 
+MESSAGE = "This is an automated WhatsApp message sent using Python's pywhatkit library."
+
+HOUR = 19
+MINUTE = 5
+
+now = datetime.datetime.now()
+print(f"Current time: {now.hour:02}:{now.minute:02}")
+print(f"Scheduling message to send at: {HOUR:02}:{MINUTE:02}\n")
+
+    pywhatkit.sendwhatmsg(
+        PHONE_NUMBER,
+        MESSAGE,
+        HOUR,
+        MINUTE,
+        wait_time=15, 
+        tab_close=True
+    )
+    
+    print("Message successfully scheduled!")
+    
